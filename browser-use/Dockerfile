@@ -26,12 +26,12 @@ RUN apt-get update && apt-get install -y \
     libatspi2.0-0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN playwright install
-
 COPY requirements.txt .
 
 # Install any dependencies
 RUN pip install -r requirements.txt
+
+RUN playwright install
 
 # Copy the application code into the container
 COPY . .
