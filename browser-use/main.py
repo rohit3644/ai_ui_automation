@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
-from browser_use import Agent
+from browser_use import Agent, Browser, BrowserConfig
 import asyncio
-import time
+import time, os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -16,9 +16,22 @@ def time_it(func):
     return wrapper
 
 async def main(task):
+    if os.getenv("IS_PROD") == "True":
+        browser = Browser(
+            config=BrowserConfig(
+                headless=True
+            )
+        )
+    else:
+        browser = Browser(
+            config=BrowserConfig(
+                headless=False
+            )
+        )
     agent = Agent(
         task=task,
         llm=ChatOpenAI(model="gpt-4o-mini"),
+        browser=browser
     )
     result = await agent.run()
     # Uncomment the line below to print the result if needed
