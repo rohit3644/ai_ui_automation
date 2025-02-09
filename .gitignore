@@ -1,0 +1,4 @@
+__pycache__/ # Ignore Python cache
+venv/ # Ignore virtual environment
+.env # Ignore environment file
+*.pyc
