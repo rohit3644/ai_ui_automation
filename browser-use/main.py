@@ -39,7 +39,12 @@ async def main(task):
 
 @time_it
 def start_task_execution(task):
-    asyncio.run(main(task))
+    loop = asyncio.new_event_loop()  # Create a new event loop
+    asyncio.set_event_loop(loop)  # Set it as the current event loop
+    try:
+        loop.run_until_complete(main(task))  # Run the coroutine
+    finally:
+        loop.close()  # Close the event loop to release resources
 
 if __name__ == "__main__":
     user_task = input("Enter the task you want to perform: ")  # Take task input from the user
