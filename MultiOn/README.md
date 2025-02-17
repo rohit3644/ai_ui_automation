@@ -12,14 +12,7 @@
 
 2. **Navigate to the `browser-use` directory:**
     ```sh
-    cd browser-use
-    ```
-
-3. **Create a `.env` file and add `OPENAI_API_KEY` and `IS_PROD` variables:**
-    ```sh
-    touch .env
-    echo "OPENAI_API_KEY=your_openai_api_key" >> .env
-    echo "IS_PROD='True'" >> .env
+    cd MultiOn
     ```
 
 4. **Build the Docker containers:**
@@ -32,4 +25,10 @@
     sudo docker compose run --rm -it app
     ```
 
-6. **Follow the prompt to enter the task you want to perform.**
+
+## Results
+
+```sh
+    - Unable to test as developer console of MultiOn is not working, so unable to fetch api key.
+    - Workflow sample from website - https://www.youtube.com/watch?v=lA8HPhSDR64
+```
