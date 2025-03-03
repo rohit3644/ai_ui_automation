@@ -16,22 +16,30 @@ def time_it(func):
     return wrapper
 
 async def main(task):
+    import requests
+
+    ANCHOR_API_KEY = os.getenv("ANCHOR_API_KEY")
+
+    response = requests.post(
+        "https://api.anchorbrowser.io/api/sessions",
+        headers={
+            "anchor-api-key": ANCHOR_API_KEY,
+            "Content-Type": "application/json",
+        },
+        json={
+        "headless": False, # Use headless false to view the browser when combining with browser-use
+        }).json()
+
     browser = Browser(
         config=BrowserConfig(
-            headless=True if os.getenv("IS_PROD") == "True" else False
+            headless=True if os.getenv("IS_PROD") == "True" else False,
+            cdp_url=f"wss://connect.anchorbrowser.io?apiKey={ANCHOR_API_KEY}&sessionId={response['id']}"
         )
     )
-    sensitive_data = {
-        "email": os.getenv("EMAIL"),
-        "password": os.getenv("PASSWORD"),
-        "gmail_username": os.getenv("GMAIL_USERNAME"),
-        "gmail_password": os.getenv("GMAIL_PASSWORD")
-    }
     agent = Agent(
         task=task,
         llm=ChatOpenAI(model="gpt-4o-mini"),
-        browser=browser,
-        sensitive_data=sensitive_data
+        browser=browser
     )
     result = await agent.run()
     # Uncomment the line below to print the result if needed
